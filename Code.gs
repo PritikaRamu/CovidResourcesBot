@@ -1,6 +1,6 @@
-var token = "1770464291:AAGnbcqljIBCV063sGOfn6DxJjD6CmQGe5s"; 
+var token = "YOUR TOKEN"; 
 var telegramUrl = "https://api.telegram.org/bot" + token; 
-var webAppUrl = "https://script.google.com/macros/s/AKfycbzzJvGRk9XGYV2_sTGgXkQE7vKKrC8A-Hp1CEBdNeKB79rlcVU/exec"; 
+var webAppUrl = "YOUR WEB APP URL"; 
 
 function getMe(){
   var url =  telegramUrl+"/getMe";
@@ -35,7 +35,7 @@ function sendMessage(chat_id, text, keyBoard) {
 function doPost(e) {
 var contents = JSON.parse(e.postData.contents);
 //GmailApp.sendEmail(Session.getEffectiveUser().getEmail(),"Message",JSON.stringify(contents,null,4));
-var ssId = "1pSwRJwKP_vc0wAFbCzNb2lQ2haybKbVnO7ohg2aRd0k";
+var ssId = "SPREADSHEET ID";
 var sheet = SpreadsheetApp.openById(ssId).getSheetByName("Sheet1");  
 var keyBoard = {
     "inline_keyboard": [

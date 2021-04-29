@@ -1,6 +1,6 @@
-var token = "1723434113:AAHI98ZQzsEQrwDZSNqXxAr072tgh1CYvjU"; 
+var token = "TOKEN"; 
 var telegramUrl = "https://api.telegram.org/bot" + token; 
-var webAppUrl = "https://script.google.com/macros/s/AKfycbzzJvGRk9XGYV2_sTGgXkQE7vKKrC8A-Hp1CEBdNeKB79rlcVU/exec"; 
+var webAppUrl = "Web App URL"; 
 
 function getMe(){
   var url =  telegramUrl+"/getMe";
@@ -15,7 +15,7 @@ var response = UrlFetchApp.fetch(url);
 } 
 
 function doGet(e){
-  return HtmlService.createHtmlOutput("Hi there");
+  return HtmlService.createHtmlOutput("go corona go");
 }
 
 function sendMessage(chat_id, text, keyBoard) {
@@ -35,9 +35,9 @@ function sendMessage(chat_id, text, keyBoard) {
 function doPost(e) {
 var contents = JSON.parse(e.postData.contents);
 //GmailApp.sendEmail(Session.getEffectiveUser().getEmail(),"Message",JSON.stringify(contents,null,4));
-var ssId = "1pSwRJwKP_vc0wAFbCzNb2lQ2haybKbVnO7ohg2aRd0k";
-var sheet = SpreadsheetApp.openById(ssId).getSheetByName("Sheet1");  
-var contact = SpreadsheetApp.openById(ssId).getSheetByName("Sheet2");  
+var ssId = "Spreadsheet ID";
+var sheet = SpreadsheetApp.openById(ssId).getSheetByName("Contacts");  
+var contact = SpreadsheetApp.openById(ssId).getSheetByName("SOS Requests");  
 var keyBoard = {
     "inline_keyboard": [
       [{
@@ -45,17 +45,33 @@ var keyBoard = {
         "callback_data": "Option A"
       }],
       [{
+        "text": "Ambulance",
+        "callback_data": "Option D"
+      }],
+      [{
         "text": "Oxygen",
         "callback_data": "Option B"
       }],
       [{
-        "text": "Testing",
-        "callback_data": "Option C"
+        "text": "Request SOS Help",
+        "callback_data": "Option J"
       }],
       [{
-        "text": "Ambulance",
-        "callback_data": "Option D"
+        "text": "Plasma Donors",
+        "callback_data": "Option H"
       }],
+      [{
+        "text": "Pharmacies",
+        "callback_data": "Option K"
+      }],
+      [{
+        "text": "Medicines",
+        "callback_data": "Option G"
+      }],
+      [{
+        "text": "Lab Testing",
+        "callback_data": "Option C"
+      }], 
       [{
         "text": "Home Cooked Meals",
         "callback_data": "Option E"
@@ -63,22 +79,10 @@ var keyBoard = {
       [{
         "text": "Crematorium",
         "callback_data": "Option F"
-      }],
-      [{
-        "text": "Medicines",
-        "callback_data": "Option G"
-      }],
-      [{
-        "text": "Plasma Donors",
-        "callback_data": "Option H"
-      }],
+      }],   
       [{
         "text": "Covid Test Results",
         "callback_data": "Option I"
-      }],
-      [{
-        "text": "Request SOS Help",
-        "callback_data": "Option J"
       }]
       ]
   };
@@ -99,17 +103,30 @@ var keyBoard = {
     if(data == "Option A"){
       var A = sheet.getRange("A2:A").getValues();
       var Ai = A.filter(String);
-      var message = "<b>Available Hospital Beds</b>\n\n";
-      for(var i = 0; i<Ai.length; i++){
-        message = message + (i+1)+". "+ String(Ai[i]) +"\n\n";
-      }
-      sendMessage(chat_id,message,keyBoard1);
+      var message = "<b>Hospitals</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
+      if(Ai.length <= 55){
+        for(var i = 0; i<Ai.length; i++){
+          message = message + (i+1)+". "+ String(Ai[i]) +"\n\n";
+        }
+        sendMessage(chat_id,message,keyBoard1);
+      }     
+      else{
+        for(var i = 0; i<55; i++){
+          message = message + (i+1)+". "+ String(Ai[i]) +"\n\n";
+        }
+        sendMessage(chat_id,message);
+        var new_mess = "";
+        for(var i = 55; i<Ai.length; i++){
+          new_mess = new_mess + (i+1)+". "+String(Ai[i])+"\n\n";
+        }
+        sendMessage(chat_id,new_mess,keyBoard1);
+      } 
     }
     
     else if(data == "Option B"){
       var B = sheet.getRange("B2:B").getValues();
       var Bi = B.filter(String);
-      var message = "<b>Oxygen</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Oxygen</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Bi.length; i++){
         message = message + (i+1)+". " + String(Bi[i]) +"\n\n";
       }
@@ -119,7 +136,7 @@ var keyBoard = {
     else if(data == "Option C"){
       var C = sheet.getRange("C2:C").getValues();
       var Ci = C.filter(String);
-      var message = "<b>Testing Labs</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Lab Testing</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Ci.length; i++){
         message = message + (i+1)+". "+ String(Ci[i]) +"\n\n";
       }
@@ -129,7 +146,7 @@ var keyBoard = {
     else if(data == "Option D"){
       var D = sheet.getRange("D2:D").getValues();
       var Di = D.filter(String);
-      var message = "<b>Ambulance</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Ambulance</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Di.length; i++){
         message = message + (i+1)+". "+ String(Di[i]) +"\n\n";
       }
@@ -139,7 +156,7 @@ var keyBoard = {
     else if(data == "Option E"){
       var E = sheet.getRange("E2:E").getValues();
       var Ei = E.filter(String);
-      var message = "<b>Home Cooked Meals</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Home Cooked Meals</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Ei.length; i++){
         message = message + (i+1)+". "+ String(Ei[i]) +"\n\n";
       }
@@ -149,7 +166,7 @@ var keyBoard = {
     else if(data == "Option F"){
       var F = sheet.getRange("F2:F").getValues();
       var Fi = F.filter(String);
-      var message = "<b>Crematorium</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Crematorium</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Fi.length; i++){
         message = message + (i+1)+". "+ String(Fi[i]) +"\n\n";
       }
@@ -159,7 +176,7 @@ var keyBoard = {
     else if(data == "Option G"){
       var G = sheet.getRange("G2:G").getValues();
       var Gi = G.filter(String);
-      var message = "<b>Medicines</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Medicines</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Gi.length; i++){
         message = message + (i+1)+". "+ String(Gi[i]) +"\n\n";
       }
@@ -169,7 +186,17 @@ var keyBoard = {
     else if(data == "Option H"){
       var H = sheet.getRange("H2:H").getValues();
       var Hi = H.filter(String);
-      var message = "<b>Plasma Donors</b>\n\n<b>Contacts</b>\n\n";
+      var message = "<b>Plasma Donors</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
+      for(var i = 0; i<Hi.length; i++){
+        message = message + (i+1)+". "+ String(Hi[i]) +"\n\n";
+      }
+      sendMessage(chat_id,message,keyBoard1);
+    }
+    
+    else if(data == "Option K"){
+      var H = sheet.getRange("I2:I").getValues();
+      var Hi = H.filter(String);
+      var message = "<b>Pharmacies</b>\n\n<b>Contacts verified by CMKR</b>\n\n";
       for(var i = 0; i<Hi.length; i++){
         message = message + (i+1)+". "+ String(Hi[i]) +"\n\n";
       }
@@ -192,6 +219,7 @@ var keyBoard = {
     var chat_id = contents.message.from.id;
     var message = contents.message.text;
     var name = contents.message.from.first_name;
+    var t = contents.message.date;
     if(contents.message.from.last_name){
       name = name +" "+ contents.message.from.last_name;
     }
@@ -201,7 +229,9 @@ var keyBoard = {
       var cell2 = contact.getRange(row+1,2);
       var cell3 = contact.getRange(row+1,3);
       var cell4 = contact.getRange(row+1,4);
+      var cell5 = contact.getRange(row+1,5);
       cell1.setValue(name);
+      cell5.setValue(t);
       message = message.slice(message.indexOf("#")+1,);
       cell2.setValue(message.slice(0,message.indexOf("#")));
       message = message.slice(message.indexOf("#")+1,);

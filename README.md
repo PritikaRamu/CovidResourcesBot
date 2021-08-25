@@ -8,4 +8,4 @@ Follow the steps in this [link](https://core.telegram.org/bots) to create a new 
 
 ## Google Apps Script
 Write script in Google Sheets. Tools->Script Editor.
-Publish as new.
+Publish as new, copy the web app URL and replace in the placeholder in the script.
